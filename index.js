@@ -60,7 +60,7 @@
     if (which == 2) {
         //官方原版   不够美化
         ckswf = 'http://www.ckplayer.com/ckplayer/6.6/ckplayer.swf';
-        ckjs = 'http://git.oschina.net/xinshangshangxin/youkuvod/raw/master/ckplayer.js';
+        ckjs = 'http://git.oschina.net/xinshangshangxin/youkuvod/raw/master/ckplayer/ckplayer.js';
         parseflv = 'http://xinshangshangxin.com/youkuvod/?';
     }
     else if (which == 3) {
