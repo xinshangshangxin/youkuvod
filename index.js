@@ -1,3 +1,4 @@
+
 (function() {
     // ==UserScript==
     // @name           youkuvod
@@ -66,7 +67,7 @@
     else if (which == 3) {
         // azure 流量不够用~~
         ckjs = 'http://xinshangshangxin.com/youkuvod/ckplayer/ckplayer.js';
-        ckswf = 'http://xinshangshangxin.com/youkuvod/ckplayer.swf';
+        ckswf = 'http://xinshangshangxin.com/youkuvod/ckplayer/ckplayer.swf';
         parseflv = 'http://xinshangshangxin.com/youkuvod/?';
     }
 
