@@ -1,65 +1,75 @@
 (function() {
     // ==UserScript==
     // @name           youkuvod
-    // @version        14.12.19.00
-    // @description    硕鼠解析视频,ckplayer播放视频,去掉广告
-    // @icon           http://i1.tietuku.com/f3f9084123926501.jpg
+    // @version        14.12.21.00
+    // @description    硕鼠/飞驴解析视频,ckplayer播放视频,去掉广告
+    // @icon           http://i3.tietuku.com/11d6c35e96ef7c9f.jpg
     // @include        http://v.youku.com/v_show/id*
     // @grant          GM_xmlhttpRequest
     // @auther         SHANG殇
-    // @namespace 	   SHANG
+    // @namespace      SHANG
     // ==/UserScript==
 
 
     //=============设置===============
 
-    var qingxidu = 1;   //默认清晰度
-					    // 1:  超清
-					    // 2:  高清
-					    // 3:  标清
-    var isgy = false;   //默认是否为国语     
-    				    //在港剧中可以选择粤语
-    var which = 1;  /*     1:   京东云;  缺点:容易挂掉; 优点:速度不错,界面仿优酷
-    					   2:   ckplayer官方版swf + git.oschina的js;
-    			                缺点:不够美化; 优点:速度不错
-    				       3:   host39; 缺点:速度慢; 优点:挂的概率小,界面仿优酷
-    			    */
+    var qingxidu = 1; //默认清晰度
+    // 0:  1080P  在飞驴解析下起作用
+    // 1:  超清
+    // 2:  高清
+    // 3:  标清
+    var isgy = false; //默认是否为国语     
+    //默认在 硕鼠解析 并且是港剧 中选择粤语
+    var flv = 'flv'; // 解析服务器
+    // 'ss' : 硕鼠
+    // 'flv': 飞驴
+    var which = 1; // 服务器选择
+    /*     1:   京东云;  缺点:容易挂掉; 优点:速度不错,界面仿优酷
+                           2:   ckplayer官方版swf + git.oschina的js + [azure 飞驴解析];
+                                缺点:不够美化; 优点:速度不错
+                           3:   azure; 缺点:流量不够用,挂的概率大; 优点:界面仿优酷
+                    */
     //=============设置结束===============
 
 
 
 
 
-	var flv = "ss"; // 解析服务器(只剩下 硕鼠了..........)
+
     //替换播放器界面
-    // var ele = document.getElementById("player");
-    // ele.style.background='url(http://q2234037172.host39.com/vod/images/lgz.gif) no-repeat center center rgb(0,0,0)';
+    // var ele = document.getElementById('player');
+    // ele.style.background = 'url(http://i3.tietuku.com/11d6c35e96ef7c9f.jpg) no-repeat center center rgb(0,0,0)';
     // var yuanhtml=ele.innerHTML;
 
 
     //全局变量
     var u; //播放地址
-    var urlanswer = new Array(4); //清晰度解析地址
+    var urlanswer = []; //清晰度解析地址
     var isconti = true; //播放环境
-    var hadjiexi = new Array(4); //是否解析过
-    var playid = "player"; //播放替换的 id
+    var islog = true; //是否输出日志
+    var qxdchoose = ['1080', '超清', '高清', '标清']; //清晰度
+    var hadjiexi = []; //是否解析过
+    var playid = 'player'; //播放替换的 id
     var ptime = 0;
 
-     // 京东服务器 容易挂
+    // 京东服务器 容易挂
     var ckjs = 'http://youkuvod.jd-app.com/ckplayer/ckplayer.js';
     var ckswf = 'http://youkuvod.jd-app.com/ckplayer/ckplayer.swf';
+    var parseflv = 'http://youkuvod.jd-app.com/?';
 
     if (which == 2) {
-    	//官方原版   不够美化
-    	ckswf = 'http://www.ckplayer.com/ckplayer/6.6/ckplayer.swf';
-    	ckjs  = 'http://git.oschina.net/q2234037172/youkuvod/raw/master/ckplayer.js';
+        //官方原版   不够美化
+        ckswf = 'http://www.ckplayer.com/ckplayer/6.6/ckplayer.swf';
+        ckjs = 'http://git.oschina.net/xinshangshangxin/youkuvod/raw/master/ckplayer.js';
+        parseflv = 'http://xinshangshangxin.com/youkuvod/?';
     }
     else if (which == 3) {
-    	// host39   速度慢
-    	ckjs = 'http://q2234037172.host39.com/youkuvod/ckplayer/ckplayer.js';
-    	ckswf = 'http://q2234037172.host39.com/youkuvod/ckplayer/ckplayer.swf';
+        // azure 流量不够用~~
+        ckjs = 'http://xinshangshangxin.com/youkuvod/ckplayer/ckplayer.js';
+        ckswf = 'http://xinshangshangxin.com/youkuvod/ckplayer.swf';
+        parseflv = 'http://xinshangshangxin.com/youkuvod/?';
     }
-    
+
 
 
     var locationhref = window.location.href;
@@ -75,7 +85,7 @@
             document.getElementsByTagName('body')[0].appendChild(loadjs);
         },
         onerror: function(res) {
-        	alert("服务器挂了... 进设置换个服务器吧....");
+            alert("服务器挂了... 进设置换个服务器吧....");
         }
     });
 
@@ -121,11 +131,8 @@
             urlanswer[i] = "";
         }
         isconti = true;
-
         qxdiv.innerHTML = '';
-
         ismatch(locationhref); //检测视频匹配, 开始寻找地址
-
     }
 
     //检测匹配(待完善)
@@ -176,7 +183,6 @@
     }
 
     //地址解析
-
     function address(hd, url, phpadd) {
         hadjiexi[hd] = true;
         if (phpadd == "ss") //硕鼠解析
@@ -222,16 +228,17 @@
                     var ur = data.match(/<input type="hidden" name="inf" value="(.*?)"\/>/);
 
                     if (ur != null) {
-                        //判断解析到的是否为标清
-                        if (hd == 1 && data.match(/<input type="hidden" name="filename" value="(.*?)超清版]"\/>/) == null || hd == 2 && data.match(/<input type="hidden" name="filename" value="(.*?)高清版]"\/>/) == null) {
+                        //判断解析到的是否为所要的清晰度
+                        var matchstr = '<input type="hidden" name="filename" value="(.*?)' + (hd == 3 ? "\\/>" : qxdchoose[hd]);
+                        if (data.match(new RegExp(matchstr, 'gi')) == null) {
+                            log(matchstr);
                             return;
                         }
-
                         urlanswer[hd] = ur[1].replace(/\|$/gi, '').replace(/&/gi, '%26');
                         showbutton(hd);
                         if (isconti) {
                             isconti = false;
-                            // console.log(urlanswer[hd])
+                            // log(urlanswer[hd])
                             start(urlanswer[hd], 0);
                         }
                     }
@@ -241,12 +248,68 @@
                 }
             });
         }
+        else if (phpadd == "flv") {
+            GM_xmlhttpRequest({
+                method: "GET",
+                url: parseflv + urlencode(url),
+                onload: function(ret) {
+                    var oVideos = JSON.parse(ret.responseText);
+                    for (var i = 0; i < oVideos.length; i++) {
+                        if (hadquality('M3U8', oVideos[i])) {
+                            continue;
+                        }
+                        else {
+                            add2urlanswer(oVideos[i]);
+                        }
+                    }
+                    for (var i = 0; i < urlanswer.length; i++) {
+                        if (urlanswer[i] != "") {
+                            showbutton(i);
+                            if (isconti && i >= qingxidu) {
+                                start(urlanswer[i], 0);
+                                isconti = false;
+                            }
+                        }
+                    }
+                },
+                onerror: function(res) {
+                    log('err');
+                }
+            });
+        }
     }
 
-    //播放视频
 
+
+    function add2urlanswer(oVideo) {
+        for (var i = 0; i < qxdchoose.length; i++) {
+            if (hadquality(qxdchoose[i], oVideo)) {
+                if (urlanswer[i] == '') {
+                    urlanswer[i] = urljoin(oVideo);
+                }
+                else if (hadquality('单段', oVideo)) {
+                    urlanswer[i] = urljoin(oVideo);
+                }
+            }
+        }
+    }
+
+    function hadquality(pattern, oVideo) {
+        return (oVideo.quality.match(pattern));
+    }
+
+    function urljoin(oVideo) {
+        var urlarr = [];
+        for (var i = 0; i < oVideo.files.length; i++) {
+            urlarr.push(oVideo.files[i].furl);
+        }
+        return urlarr.join('|');
+    }
+
+
+    //播放视频
     function start(u, ss) {
-        // console.log(u + "             " + ss)
+        log(u + "             " + ss)
         if (CKobject.getObjectById('syplayer') != null) {
             CKobject.getObjectById('syplayer').ckplayer_newaddress('{f->' + u + '}{s->' + ss + '}');
             return;
@@ -261,23 +324,29 @@
 
     //显示悬浮按钮
     function showbutton(hd) {
-        if (hd == 1) {
-            qxdiv.innerHTML += '<input type="button" onclick = "CKobject.getObjectById(\'syplayer\').newAddress(\'{s->0}{f->' + decodeURIComponent(urlanswer[1]) + '}\');" value="超清" style="display:block;border:none;background:none;">';
-            //console.log(qxdiv.innerHTML)
-        }
-        else if (hd == 2) {
-            qxdiv.innerHTML += '<input type="button"  onclick = "CKobject.getObjectById(\'syplayer\').newAddress(\'{p->1}{f->' + decodeURIComponent(urlanswer[2]) + '}\');" value="高清" style="display:block;border:none;background:none;">';
-        }
-        else if (hd == 3) {
-            qxdiv.innerHTML += '<input type="button"  onclick = "CKobject.getObjectById(\'syplayer\').newAddress(\'{f->' + decodeURIComponent(urlanswer[3]) + '}\');" value="标清" style="display:block;border:none;background:none;">';
-        }
+        qxdiv.innerHTML += '<input type="button" onclick = "CKobject.getObjectById(\'syplayer\').newAddress(\'{s->0}{f->' + decodeURIComponent(urlanswer[hd]) + '}\');" value="' + qxdchoose[hd] + '" style="display:block;border:none;background:none;">';
+    }
 
+    function urlencode(uri) {
+        uri = uri.replace(/^(http:\/\/[^\/]*(?:youku|tudou|ku6|yinyuetai|letv|sohu|youtube|iqiyi|facebook|vimeo|cutv|cctv|pptv))xia.com\//, '$1.com/');
+        uri = uri.replace(/^(http:\/\/[^\/]*(?:bilibili|acfun|pps))xia\.tv\//, '$1.tv/');
+        uri = uri.replace(/^(https?:)\/\//, '$1##');
+        uri = btoa(uri); //IE10+
+        uri = uri.replace('+', '-').replace('/', '_');
+        return uri;
+    };
+
+    function log(str) {
+        if (islog) {
+            console.log(str);
+        }
     }
 
     /* 
+     * 141221       添加飞驴解析; 添加清晰度1080P; 精简部分代码
      * 141219       添加服务器切换设置, 添加服务器挂掉弹窗,移动至github
-     * 141217	    清晰度选择恢复
-     * 141216	    更新ckplayer; 暂时去除 清晰度选择(现在只可以选择默认清晰度)
+     * 141217       清晰度选择恢复
+     * 141216       更新ckplayer; 暂时去除 清晰度选择(现在只可以选择默认清晰度)
      * 140927       全面去除 飞驴 (┬＿┬); 添加清晰度自动隐藏
      * 140923       因为飞驴解析需要token, 所以默认为 硕鼠,也因此去除 爱奇艺解析(硕鼠不支持) 修正硕鼠下 高清不显示问题
      * 140811       添加更换服务器选项
@@ -292,6 +361,6 @@
     /*      注意事项:
      *              1, 业余作品, 如有不爽, 请勿乱喷, 欢迎指正
      *              2, 拖动存在问题(因为视频是分割的);还没想到解决方法
-     *              3, 飞驴解析待定
+     *              3, 飞驴解析测试
      **/
 })();
