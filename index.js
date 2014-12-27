@@ -84,9 +84,6 @@
             loadjs.type = 'text/javascript';
             loadjs.innerHTML = jdata.responseText;
             document.getElementsByTagName('body')[0].appendChild(loadjs);
-        },
-        onerror: function(res) {
-            alert("服务器挂了... 进设置换个服务器吧....");
         }
     });
 
@@ -344,7 +341,7 @@
     }
 
     /* 
-     * 141227		默认选择官方原版播放器; 京东太渣了~~~
+     * 141227		默认选择官方原版播放器; 京东太渣了~~~, onerr函数无用
      * 141221       添加飞驴解析; 添加清晰度1080P; 精简部分代码
      * 141219       添加服务器切换设置, 添加服务器挂掉弹窗,移动至github
      * 141217       清晰度选择恢复
