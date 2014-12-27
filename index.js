@@ -24,7 +24,7 @@
     var flv = 'flv'; // 解析服务器
     // 'ss' : 硕鼠
     // 'flv': 飞驴
-    var which = 1; // 服务器选择
+    var which = 2; // 服务器选择
     /*     1:   京东云;  缺点:容易挂掉; 优点:速度不错,界面仿优酷
                            2:   ckplayer官方版swf + git.oschina的js + [azure 飞驴解析];
                                 缺点:不够美化; 优点:速度不错
