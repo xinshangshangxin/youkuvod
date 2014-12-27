@@ -1,4 +1,3 @@
-
 (function() {
     // ==UserScript==
     // @name           youkuvod
@@ -106,21 +105,7 @@
         qxdiv.style.width = "0";
     }
 
-
-
-    // 其他信息显示 顶部栏
-    /*
-     var infodiv = document.createElement('div');
-     infodiv.id = "info";
-     $(document).ready(function() 
-     {
-         document.getElementsByClassName('s_main layout_121')[0].appendChild(infodiv);
-         
-         showbutton(3);
-     });
-*/
     chushihua();
-
 
     //初始化变量
     function chushihua() {
@@ -150,7 +135,6 @@
 
 
     //未解析到视频抛出异常
-
     function throwerror(hd, phpadd) {
         if (hd == 3) {
             alert('没有解析到视频');
@@ -166,7 +150,6 @@
 
 
     //字符转换  网络代码
-
     function base64_encode(e) {
         var t = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
             n, r, i, s, o, u, a, f, l = 0,
