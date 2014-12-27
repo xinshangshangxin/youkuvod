@@ -2,7 +2,7 @@
 (function() {
     // ==UserScript==
     // @name           youkuvod
-    // @version        14.12.21.00
+    // @version        14.12.27.00
     // @description    硕鼠/飞驴解析视频,ckplayer播放视频,去掉广告
     // @icon           http://i3.tietuku.com/11d6c35e96ef7c9f.jpg
     // @include        http://v.youku.com/v_show/id*
@@ -344,6 +344,7 @@
     }
 
     /* 
+     * 141227		默认选择官方原版播放器; 京东太渣了~~~
      * 141221       添加飞驴解析; 添加清晰度1080P; 精简部分代码
      * 141219       添加服务器切换设置, 添加服务器挂掉弹窗,移动至github
      * 141217       清晰度选择恢复
