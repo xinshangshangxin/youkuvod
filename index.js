@@ -1,7 +1,7 @@
 (function() {
     // ==UserScript==
     // @name           youkuvod
-    // @version        2.1.1
+    // @version        2.1.2
     // @description    硕鼠/飞驴解析视频,ckplayer播放视频,去掉广告
     // @icon           http://i3.tietuku.com/11d6c35e96ef7c9f.jpg
     // @include        http://v.youku.com/v_show/id*
@@ -227,7 +227,6 @@
                             isconti = false;
                             // log(urlanswer[hd])
                             start(urlanswer[hd], 0);
-                            showbutton(-1);
                         }
                         showbutton(hd);
                     }
@@ -253,7 +252,6 @@
                     }
                     for (var i = 0; i < urlanswer.length; i++) {
                         if (urlanswer[i] != "") {
-                            showbutton(-1);
                             if (isconti && i >= qingxidu) {
                                 start(urlanswer[i], 0);
                                 isconti = false;
@@ -312,14 +310,12 @@
 
     //显示悬浮按钮
     function showbutton(hd) {
-        if (hd == -1) {
+        if (qxdiv.innerHTML == '') {
             qxdiv.innerHTML += '<button style="display:block;border:none;background:none;" onclick="document.getElementById(\'content_shang\').style.display=(document.getElementById(\'content_shang\').style.display == \'block\' ? \'none\' : \'block\')">设置</button>';
         }
-        else {
-            qxdiv.innerHTML += '<input type="button" onclick = "CKobject.getObjectById(\'syplayer\').newAddress(\'{s->0}{f->' + decodeURIComponent(urlanswer[hd]) + '}\');" value="' + qxdchoose[hd] + '" style="display:block;border:none;background:none;">';
-
-        }
+        qxdiv.innerHTML += '<input type="button" onclick = "CKobject.getObjectById(\'syplayer\').newAddress(\'{s->0}{f->' + decodeURIComponent(urlanswer[hd]) + '}\');" value="' + qxdchoose[hd] + '" style="display:block;border:none;background:none;">';
     }
+
 
     function urlencode(uri) {
         uri = uri.replace(/^(http:\/\/[^\/]*(?:youku|tudou|ku6|yinyuetai|letv|sohu|youtube|iqiyi|facebook|vimeo|cutv|cctv|pptv))xia.com\//, '$1.com/');
@@ -337,6 +333,7 @@
     }
 
     /* 
+     * 150102		修正 设置按钮 显示位置不正确
      * 141230       图形化设置页面移动至清晰度按钮上方
      * 141229       去除代码设置;添加图形化设置;版本号书写方式变化
      * 141227       默认选择官方原版播放器; 京东太渣了~~~, onerr函数无用
@@ -354,6 +351,4 @@
      * 140627       图标更改, 修正视频清晰度显示不正确
      * 140626       create
      **/
-
-   
 })();
