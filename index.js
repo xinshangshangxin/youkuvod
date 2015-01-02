@@ -1,7 +1,7 @@
 (function() {
     // ==UserScript==
-    // @name           youkuvod
-    // @version        2.1.2
+    // @name           youkuvod2.0
+    // @version        2.1.3
     // @description    硕鼠/飞驴解析视频,ckplayer播放视频,去掉广告
     // @icon           http://i3.tietuku.com/11d6c35e96ef7c9f.jpg
     // @include        http://v.youku.com/v_show/id*
@@ -12,16 +12,16 @@
 
 
     var optionshowhtml = document.createElement('div');
-    optionshowhtml.innerHTML = '<div id="content_shang">' + '            <fieldset>' + '                <legend title="">解析服务器</legend>' + '                <select id="flv_shang">' + '                    <option value="ss">硕鼠</option>' + '                    <option value="flv">飞驴</option>' + '                </select>' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">默认清晰度</legend>' + '                <select id="qxd_shang">' + '                    <option value="0">1080P[飞驴解析下]</option>' + '                    <option value="1">超清</option>' + '                    <option value="2">高清</option>' + '                    <option value="3">标清</option>' + '                </select>' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">播放器服务器</legend>' + '                <select id="which_shang">' + '                    <option value="1">京东云</option>' + '                    <option value="2">ckplayer官方[推荐]</option>' + '                    <option value="3">azure</option>' + '                </select>' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">港剧语言</legend>' + '                <input id="isgy_shang" type="checkbox">粤语' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">注意</legend>' + '                点击确定产生<br>' + '                刷新页面应用设置' + '                <button id="confirm_shang">确定</button>' + '            </fieldset>' + '        </div>';
+    optionshowhtml.innerHTML = '<div id="content_shang">' + '            <fieldset>' + '                <legend title="">解析服务器</legend>' + '                <select id="flv_shang">' + '                    <option value="ss">硕鼠</option>' + '                    <option value="flv">飞驴</option>' + '                </select>' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">默认清晰度</legend>' + '                <select id="qxd_shang">' + '                    <option value="0">1080P[飞驴解析下]</option>' + '                    <option value="1">超清</option>' + '                    <option value="2">高清</option>' + '                    <option value="3">标清</option>' + '                </select>' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">播放器服务器</legend>' + '                <select id="which_shang">' + '                    <option value="1">默认站点</option>' + '                    <option value="2">ckplayer官方[推荐]</option>' + '                    <option value="3">azure</option>' + '                </select>' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">港剧语言</legend>' + '                <input id="isgy_shang" type="checkbox">粤语' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">注意</legend>' + '                点击确定产生<br>' + '                刷新页面应用设置' + '                <button id="confirm_shang">确定</button>' + '            </fieldset>' + '        </div>';
     var optionshowstyle = document.createElement('style');
     optionshowstyle.type = 'text/css';
     optionshowstyle.innerHTML = '#content_shang{z-index: 99999;position:fixed;top:50%;margin-top:-150px;left:50px;background:#fbfbfb;display:none}#content_shang fieldset{padding:6px;margin:3px}#content_shang ul{margin:0;padding:0}#content_shang li{list-style:none}input[type=checkbox]:hover{cursor:pointer}';
     var optionshowscript = document.createElement('script');
-    optionshowscript.innerHTML = '!function(){function a(){var a={qingxidu:1,isgy:!1,flv:"flv",which:2};localStorage["shang_youkuvod"]&&(a=e(a,JSON.parse(localStorage["shang_youkuvod"]))),b(document.getElementById("flv_shang").options,a.flv),b(document.getElementById("qxd_shang").options,a.qingxidu),b(document.getElementById("which_shang").options,a.which),document.getElementById("isgy_shang").checked=!a.isgy,document.getElementById("confirm_shang").onclick=function(){c(),location.href=location.href},document.getElementById("content_shang").onmouseover=function(){clearTimeout(this.timer),this.style.display="block"},document.getElementById("content_shang").onmouseleave=function(){var a=this;this.timer=setTimeout(function(){a.style.display="none"},1e3)}}function b(a,b){for(var c=0;c<a.length;c++)a[c].value==b&&(a[c].selected=!0)}function c(){var a={};a.flv=d(document.getElementById("flv_shang").options),a.qingxidu=d(document.getElementById("qxd_shang").options),a.which=d(document.getElementById("which_shang").options),a.isgy=!document.getElementById("isgy_shang").checked,localStorage["shang_youkuvod"]=JSON.stringify(a)}function d(a){for(var b=0;b<a.length;b++)if(a[b].selected)return a[b].value;return 0}function e(a,b){for(key in b)a[key]=b[key];return a}a()}();';
+    optionshowscript.innerHTML = '!function(){function a(){var a={qingxidu:1,isgy:!1,flv:"ss",which:1};localStorage["shang_youkuvod"]&&(a=e(a,JSON.parse(localStorage["shang_youkuvod"]))),b(document.getElementById("flv_shang").options,a.flv),b(document.getElementById("qxd_shang").options,a.qingxidu),b(document.getElementById("which_shang").options,a.which),document.getElementById("isgy_shang").checked=!a.isgy,document.getElementById("confirm_shang").onclick=function(){c(),location.href=location.href},document.getElementById("content_shang").onmouseover=function(){clearTimeout(this.timer),this.style.display="block"},document.getElementById("content_shang").onmouseleave=function(){var a=this;this.timer=setTimeout(function(){a.style.display="none"},1e3)}}function b(a,b){for(var c=0;c<a.length;c++)a[c].value==b&&(a[c].selected=!0)}function c(){var a={};a.flv=d(document.getElementById("flv_shang").options),a.qingxidu=d(document.getElementById("qxd_shang").options),a.which=d(document.getElementById("which_shang").options),a.isgy=!document.getElementById("isgy_shang").checked,localStorage["shang_youkuvod"]=JSON.stringify(a)}function d(a){for(var b=0;b<a.length;b++)if(a[b].selected)return a[b].value;return 0}function e(a,b){for(key in b)a[key]=b[key];return a}a()}();';
 
     var qxdiv = document.createElement('div');
     qxdiv.style.cssText = "position:fixed; z-index:99999; top:45%; background:white;left:0px; border:3px solid rgb(221,221,221); padding:2px; border-radius:5px;overflow:hidden";
-    // qxdiv.innerHTML = '<button style="display:block;border:none;background:none;" onclick="document.getElementById(\'content_shang\').style.display=(document.getElementById(\'content_shang\').style.display == \'block\' ? \'none\' : \'block\')">设置</button>';
+    qxdiv.innerHTML = '<button style="display:block;border:none;background:none;" onclick="document.getElementById(\'content_shang\').style.display=(document.getElementById(\'content_shang\').style.display == \'block\' ? \'none\' : \'block\')">设置</button>';
 
     var oBody = document.getElementsByTagName('body')[0];
     oBody.appendChild(qxdiv);
@@ -33,8 +33,8 @@
     var option = {
         qingxidu: 1,
         isgy: false,
-        flv: 'flv',
-        which: 2
+        flv: 'ss',
+        which: 1
     }
     if (localStorage['shang_youkuvod']) {
         option = extend(option, JSON.parse(localStorage['shang_youkuvod']));
@@ -63,10 +63,10 @@
     var playid = 'player'; //播放替换的 id
     var ptime = 0;
 
-    // 京东服务器 容易挂
-    var ckjs = 'http://youkuvod.jd-app.com/ckplayer/ckplayer.js';
-    var ckswf = 'http://youkuvod.jd-app.com/ckplayer/ckplayer.swf';
-    var parseflv = 'http://youkuvod.jd-app.com/?';
+    // 默认站点
+    var ckjs = 'http://youkuvod.esy.es/ckplayer/ckplayer.js';
+    var ckswf = 'http://youkuvod.esy.es/ckplayer/ckplayer.swf';
+    var parseflv = 'http://xinshangshangxin.com/youkuvod/?';
 
     if (which == 2) {
         //官方原版   不够美化
@@ -121,7 +121,6 @@
             urlanswer[i] = "";
         }
         isconti = true;
-        qxdiv.innerHTML = '';
         ismatch(locationhref); //检测视频匹配, 开始寻找地址
     }
 
@@ -310,9 +309,9 @@
 
     //显示悬浮按钮
     function showbutton(hd) {
-        if (qxdiv.innerHTML == '') {
-            qxdiv.innerHTML += '<button style="display:block;border:none;background:none;" onclick="document.getElementById(\'content_shang\').style.display=(document.getElementById(\'content_shang\').style.display == \'block\' ? \'none\' : \'block\')">设置</button>';
-        }
+        // if (qxdiv.innerHTML == '') {
+        //     qxdiv.innerHTML += '<button style="display:block;border:none;background:none;" onclick="document.getElementById(\'content_shang\').style.display=(document.getElementById(\'content_shang\').style.display == \'block\' ? \'none\' : \'block\')">设置</button>';
+        // }
         qxdiv.innerHTML += '<input type="button" onclick = "CKobject.getObjectById(\'syplayer\').newAddress(\'{s->0}{f->' + decodeURIComponent(urlanswer[hd]) + '}\');" value="' + qxdchoose[hd] + '" style="display:block;border:none;background:none;">';
     }
 
@@ -333,7 +332,7 @@
     }
 
     /* 
-     * 150102		修正 设置按钮 显示位置不正确
+     * 150102		修正/更改 设置按钮 显示位置;
      * 141230       图形化设置页面移动至清晰度按钮上方
      * 141229       去除代码设置;添加图形化设置;版本号书写方式变化
      * 141227       默认选择官方原版播放器; 京东太渣了~~~, onerr函数无用
