@@ -1,6 +1,6 @@
 (function() {
     // ==UserScript==
-    // @name           youkuvod2.0
+    // @name           youkuvod
     // @version        2.1.3
     // @description    硕鼠/飞驴解析视频,ckplayer播放视频,去掉广告
     // @icon           http://i3.tietuku.com/11d6c35e96ef7c9f.jpg
