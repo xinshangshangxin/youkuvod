@@ -77,8 +77,8 @@
     }
     else if (which == 3) {
         // azure 流量不够用~~
-        ckjs = 'http://xinshangshangxin.com/youkuvod/ckplayer/ckplayer.js';
-        ckswf = 'http://xinshangshangxin.com/youkuvod/ckplayer/ckplayer.swf';
+        ckjs = 'http://xinshangshangxin.chinacloudsites.cn/youkuvod/ckplayer/ckplayer.js';
+        ckswf = 'http://xinshangshangxin.chinacloudsites.cn/youkuvod/ckplayer/ckplayer.swf';
         parseflv = 'http://xinshangshangxin.chinacloudsites.cn/youkuvod/?';
     }
 
