@@ -1,7 +1,7 @@
 (function() {
     // ==UserScript==
     // @name           youkuvod
-    // @version        15.01.21.00
+    // @version        15.01.30.00
     // @description    硕鼠/飞驴解析视频,ckplayer播放视频,去掉广告
     // @icon           http://i3.tietuku.com/11d6c35e96ef7c9f.jpg
     // @include        http://v.youku.com/v_show/id*
@@ -67,19 +67,19 @@
     // 默认站点
     var ckjs = 'http://youkuvod.esy.es/ckplayer/ckplayer.js';
     var ckswf = 'http://youkuvod.esy.es/ckplayer/ckplayer.swf';
-    var parseflv = 'http://xinshangshangxin.com/youkuvod/?';
+    var parseflv = 'http://xinshangshangxin.chinacloudsites.cn/youkuvod/?';
 
     if (which == 2) {
         //官方原版   不够美化
         ckswf = 'http://www.ckplayer.com/ckplayer/6.6/ckplayer.swf';
         ckjs = 'http://git.oschina.net/xinshangshangxin/youkuvod/raw/master/ckplayer/ckplayer.js';
-        parseflv = 'http://xinshangshangxin.com/youkuvod/?';
+        parseflv = 'http://xinshangshangxin.chinacloudsites.cn/youkuvod/?';
     }
     else if (which == 3) {
         // azure 流量不够用~~
         ckjs = 'http://xinshangshangxin.com/youkuvod/ckplayer/ckplayer.js';
         ckswf = 'http://xinshangshangxin.com/youkuvod/ckplayer/ckplayer.swf';
-        parseflv = 'http://xinshangshangxin.com/youkuvod/?';
+        parseflv = 'http://xinshangshangxin.chinacloudsites.cn/youkuvod/?';
     }
 
 
@@ -307,6 +307,7 @@
     }
 
     /* 
+     * 150130		使用二级域名,本来域名即将调整
      * 150121		根据jshint修正各种警告
      * 150102		修正/更改 设置按钮 显示位置;修正飞驴1080P解析略过问题;去除京东服务器
      * 141230       图形化设置页面移动至清晰度按钮上方
