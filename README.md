@@ -1,5 +1,5 @@
 #youkuvod2.0
-##[greasyfork地址](https://greasyfork.org/zh-CN/scripts/2837-youkuvod)
+##[github地址](https://github.com/xinshangshangxin/youkuvod) / [greasyfork地址](https://greasyfork.org/zh-CN/scripts/2837-youkuvod)
 ## 硕鼠/飞驴解析视频,ckplayer播放视频,去掉优酷广告
 
 ### 设置改版!! 设置按钮移动至清晰度选择上方;修正一系列bug
