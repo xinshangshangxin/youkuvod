@@ -1,4 +1,5 @@
 #youkuvod2.0
+# 服务器到期;脚本速度/稳定性受影响,故[提供文章自行搭建服务器](http://blog.xinshangshangxin.com/2015/02/20/%E8%87%AA%E8%A1%8C%E6%90%AD%E5%BB%BAyoukuvod%E6%9C%8D%E5%8A%A1%E5%99%A8/)
 ##[github地址](https://github.com/xinshangshangxin/youkuvod) / [greasyfork地址](https://greasyfork.org/zh-CN/scripts/2837-youkuvod)
 ## 硕鼠/飞驴解析视频,ckplayer播放视频,去掉优酷广告
 
