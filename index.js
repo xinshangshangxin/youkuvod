@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           youkuvod
-// @version        15.02.11.00
+// @version        15.02.20.00
 // @description    硕鼠/飞驴解析视频,ckplayer播放视频,去掉广告
 // @icon           http://i3.tietuku.com/11d6c35e96ef7c9f.jpg
 // @include        http://v.youku.com/v_show/id*
@@ -11,10 +11,10 @@
 
 
 var optionshowhtml = document.createElement('div');
-optionshowhtml.innerHTML = '<div id="content_shang">' + '            <fieldset>' + '                <legend title="">解析服务器</legend>' + '                <select id="flv_shang">' + '                    <option value="ss">硕鼠</option>' + '                    <option value="flv">飞驴</option>' + '                </select>' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">默认清晰度</legend>' + '                <select id="qxd_shang">' + '                    <option value="0">1080P[飞驴解析下]</option>' + '                    <option value="1">超清</option>' + '                    <option value="2">高清</option>' + '                    <option value="3">标清</option>' + '                </select>' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">播放器服务器</legend>' + '                <select id="which_shang">' + '                    <option value="1">默认站点</option>' + '                    <option value="2">ckplayer官方[推荐]</option>' + '                    <option value="3">azure</option>' + '                </select>' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">港剧语言</legend>' + '                <input id="isgy_shang" type="checkbox">粤语' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">注意</legend>' + '                点击确定产生<br>' + '                刷新页面应用设置' + '                <button id="confirm_shang">确定</button>' + '            </fieldset>' + '        </div>';
+optionshowhtml.innerHTML = '<div id="content_shang">' + '            <fieldset>' + '                <legend title="">解析服务器</legend>' + '                <select id="flv_shang">' + '                    <option value="ss">硕鼠</option>' + '                    <option value="flv">飞驴[速度慢!]</option>' + '                </select>' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">默认清晰度</legend>' + '                <select id="qxd_shang">' + '                    <option value="0">1080P[飞驴解析下]</option>' + '                    <option value="1">超清</option>' + '                    <option value="2">高清</option>' + '                    <option value="3">标清</option>' + '                </select>' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">播放器服务器</legend>' + '                <select id="which_shang">' + '                    <option value="1">默认站点</option>' + '                    <option value="2">ckplayer官方[推荐]</option>' + '                    <option value="3">coding</option>' + '                </select>' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">港剧语言</legend>' + '                <input id="isgy_shang" type="checkbox">粤语' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">注意</legend>' + '                点击确定产生<br>' + '                刷新页面应用设置' + '                <button id="confirm_shang">确定</button>' + '            </fieldset>' + '        </div>';
 var optionshowstyle = document.createElement('style');
 optionshowstyle.type = 'text/css';
-optionshowstyle.innerHTML = '#content_shang{z-index: 99999;position:fixed;top:50%;margin-top:-150px;left:50px;background:#fbfbfb;display:none}#content_shang fieldset{padding:6px;margin:3px}#content_shang ul{margin:0;padding:0}#content_shang li{list-style:none}input[type=checkbox]:hover{cursor:pointer}';
+optionshowstyle.innerHTML = '#content_shang{z-index: 99999;position:fixed;top:50%;margin-top:-150px;right:50px;background:#fbfbfb;display:none}#content_shang fieldset{padding:6px;margin:3px}#content_shang ul{margin:0;padding:0}#content_shang li{list-style:none}input[type=checkbox]:hover{cursor:pointer}';
 var optionshowscript = document.createElement('script');
 optionshowscript.innerHTML = '!function(){function a(){var a={qingxidu:1,isgy:!1,flv:"ss",which:3};localStorage["shang_youkuvod"]&&(a=e(a,JSON.parse(localStorage["shang_youkuvod"]))),b(document.getElementById("flv_shang").options,a.flv),b(document.getElementById("qxd_shang").options,a.qingxidu),b(document.getElementById("which_shang").options,a.which),document.getElementById("isgy_shang").checked=!a.isgy,document.getElementById("confirm_shang").onclick=function(){c(),location.href=location.href},document.getElementById("content_shang").onmouseover=function(){clearTimeout(this.timer),this.style.display="block"},document.getElementById("content_shang").onmouseleave=function(){var a=this;this.timer=setTimeout(function(){a.style.display="none"},1e3)}}function b(a,b){for(var c=0;c<a.length;c++)a[c].value==b&&(a[c].selected=!0)}function c(){var a={};a.flv=d(document.getElementById("flv_shang").options),a.qingxidu=d(document.getElementById("qxd_shang").options),a.which=d(document.getElementById("which_shang").options),a.isgy=!document.getElementById("isgy_shang").checked,localStorage["shang_youkuvod"]=JSON.stringify(a)}function d(a){for(var b=0;b<a.length;b++)if(a[b].selected)return a[b].value;return 0}function e(a,b){for(key in b)a[key]=b[key];return a}a()}();';
 
@@ -66,18 +66,16 @@ var ptime = 0;
 // 默认站点
 var ckjs = 'http://youkuvod.esy.es/ckplayer/ckplayer.js';
 var ckswf = 'http://youkuvod.esy.es/ckplayer/ckplayer.swf';
-var parseflv = 'http://xinshangshangxin.chinacloudsites.cn/youkuvod/?';
+var parseflv = 'http://youkuvod.coding.io/?';
 
 if (which == 2) {
     //官方原版   不够美化
     ckswf = 'http://www.ckplayer.com/ckplayer/6.6/ckplayer.swf';
     ckjs = 'http://git.oschina.net/xinshangshangxin/youkuvod/raw/master/ckplayer/ckplayer.js';
-    parseflv = 'http://xinshangshangxin.chinacloudsites.cn/youkuvod/?';
 } else if (which == 3) {
-    // azure 流量不够用~~
-    ckjs = 'http://xinshangshangxin.chinacloudsites.cn/youkuvod/ckplayer/ckplayer.js';
-    ckswf = 'http://xinshangshangxin.chinacloudsites.cn/youkuvod/ckplayer/ckplayer.swf';
-    parseflv = 'http://xinshangshangxin.chinacloudsites.cn/youkuvod/?';
+    // 流量不够用~~
+    ckjs = 'http://youkuvod.coding.io/ckplayer/ckplayer.js';
+    ckswf = 'http://youkuvod.coding.io/ckplayer/ckplayer.swf';
 }
 
 
@@ -298,6 +296,7 @@ function log(str) {
 }
 
 /* 
+ * 150219       azure免费到期;域名转coding.net;修改/添加coding.net演示所需要文件
  * 150211 		修正在已经设置硕鼠解析清晰度下标清失效问题
  * 150130       使用二级域名,本来域名即将调整
  * 150121       根据jshint修正各种警告
