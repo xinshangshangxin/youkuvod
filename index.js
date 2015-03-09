@@ -4,6 +4,7 @@
 // @description    硕鼠/飞驴解析视频,ckplayer播放视频,去掉广告
 // @icon           http://i3.tietuku.com/11d6c35e96ef7c9f.jpg
 // @include        http://v.youku.com/v_show/id*
+// @include 	   http://www.hunantv.com/v*
 // @grant          GM_xmlhttpRequest
 // @auther         SHANG殇
 // @namespace      SHANG
@@ -119,7 +120,7 @@ function chushihua() {
 
 //检测匹配(待完善)
 function ismatch(url) {
-    if (url.match('http://v.youku.com/v_show/id')) {
+    if (url.match(/(http:\/\/v\.youku\.com\/v_show\/id)|(hunantv\.com\/v)/)) {
         isconti = true;
         //调整解析时的清晰度
         if (qingxidu < 1) {
@@ -295,14 +296,14 @@ function log(str) {
     }
 }
 
-/* 
+/* 150309		添加hunantv
  * 150219       azure免费到期;域名转coding.net;修改/添加coding.net演示所需要文件
  * 150211 		修正在已经设置硕鼠解析清晰度下标清失效问题
  * 150130       使用二级域名,本来域名即将调整
  * 150121       根据jshint修正各种警告
  * 150102       修正/更改 设置按钮 显示位置;修正飞驴1080P解析略过问题;去除京东服务器
  * 141230       图形化设置页面移动至清晰度按钮上方
- * 141229       去除代码设置;添加图形化设置;版本号书写方式变化
+ * 141229       去除代码设置;添加图形化设置;
  * 141227       默认选择官方原版播放器; 京东太渣了~~~, onerr函数无用
  * 141221       添加飞驴解析; 添加清晰度1080P; 精简部分代码
  * 141219       添加服务器切换设置, 添加服务器挂掉弹窗,移动至github
