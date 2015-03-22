@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           youkuvod
-// @version        15.02.20.00
+// @version        15.03.22.00
 // @description    硕鼠/飞驴解析视频,ckplayer播放视频,去掉广告
 // @icon           http://i3.tietuku.com/11d6c35e96ef7c9f.jpg
 // @include        http://v.youku.com/v_show/id*
@@ -11,7 +11,7 @@
 
 
 var optionshowhtml = document.createElement('div');
-optionshowhtml.innerHTML = '<div id="content_shang">' + '            <fieldset>' + '                <legend title="">解析服务器</legend>' + '                <select id="flv_shang">' + '                    <option value="ss">硕鼠</option>' + '                    <option value="flv">飞驴[速度慢!]</option>' + '                </select>' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">默认清晰度</legend>' + '                <select id="qxd_shang">' + '                    <option value="0">1080P[飞驴解析下]</option>' + '                    <option value="1">超清</option>' + '                    <option value="2">高清</option>' + '                    <option value="3">标清</option>' + '                </select>' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">播放器服务器</legend>' + '                <select id="which_shang">' + '                    <option value="1">默认站点</option>' + '                    <option value="2">ckplayer官方[推荐]</option>' + '                    <option value="3">coding</option>' + '                </select>' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">港剧语言</legend>' + '                <input id="isgy_shang" type="checkbox">粤语' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">注意</legend>' + '                点击确定产生<br>' + '                刷新页面应用设置' + '                <button id="confirm_shang">确定</button>' + '            </fieldset>' + '        </div>';
+optionshowhtml.innerHTML = '<div id="content_shang">' + '            <fieldset>' + '                <legend title="">解析服务器</legend>' + '                <select id="flv_shang">' + '                    <option value="ss">硕鼠</option>' + '                    ' + '                </select>' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">默认清晰度</legend>' + '                <select id="qxd_shang">' + '                    ' + '                    <option value="1">超清</option>' + '                    <option value="2">高清</option>' + '                    <option value="3">标清</option>' + '                </select>' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">播放器服务器</legend>' + '                <select id="which_shang">' + '                    ' + '                    <option value="2">ckplayer官方[推荐]</option>' + '                    <option value="3">coding</option>' + '                </select>' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">港剧语言</legend>' + '                <input id="isgy_shang" type="checkbox">粤语' + '            </fieldset>' + '            <fieldset>' + '                <legend title="">注意</legend>' + '                点击确定产生<br>' + '                刷新页面应用设置' + '                <button id="confirm_shang">确定</button>' + '            </fieldset>' + '        </div>';
 var optionshowstyle = document.createElement('style');
 optionshowstyle.type = 'text/css';
 optionshowstyle.innerHTML = '#content_shang{z-index: 99999;position:fixed;top:50%;margin-top:-150px;right:50px;background:#fbfbfb;display:none}#content_shang fieldset{padding:6px;margin:3px}#content_shang ul{margin:0;padding:0}#content_shang li{list-style:none}input[type=checkbox]:hover{cursor:pointer}';
@@ -67,6 +67,11 @@ var ptime = 0;
 var ckjs = 'http://youkuvod.esy.es/ckplayer/ckplayer.js';
 var ckswf = 'http://youkuvod.esy.es/ckplayer/ckplayer.swf';
 var parseflv = 'http://youkuvod.coding.io/?';
+
+if (which == 1) {
+    which = 3; // 1的网址已经无用
+    flv = 'ss'; // 飞驴已经关闭api接口 https://www.flvxz.com/docs.php?doc=api
+}
 
 if (which == 2) {
     //官方原版   不够美化
@@ -296,6 +301,7 @@ function log(str) {
 }
 
 /* 
+ * 150322		飞驴api接口关闭;屏蔽相关代码
  * 150219       azure免费到期;域名转coding.net;修改/添加coding.net演示所需要文件
  * 150211 		修正在已经设置硕鼠解析清晰度下标清失效问题
  * 150130       使用二级域名,本来域名即将调整
