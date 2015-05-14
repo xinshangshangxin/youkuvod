@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           youkuvod
-// @version        15.03.22.00
+// @version        15.05.14.00
 // @description    硕鼠/飞驴解析视频,ckplayer播放视频,去掉广告
 // @icon           http://i3.tietuku.com/11d6c35e96ef7c9f.jpg
 // @include        http://v.youku.com/v_show/id*
@@ -153,11 +153,11 @@ function address(hd, url, phpadd) {
     if (phpadd == 'ss') //硕鼠解析
     {
         if (hd == 3) {
-            u = 'http://www.flvcd.com/parse.php?format=normal&kw=' + encodeURIComponent(url);
+            u = 'http://www.flvcd.com/parse.php?format=normal&go=1&kw=' + encodeURIComponent(url);
         } else if (hd == 2) {
-            u = 'http://www.flvcd.com/parse.php?format=high&kw=' + encodeURIComponent(url);
+            u = 'http://www.flvcd.com/parse.php?format=high&go=1&kw=' + encodeURIComponent(url);
         } else if (hd == 1) {
-            u = 'http://www.flvcd.com/parse.php?format=super&kw=' + encodeURIComponent(url);
+            u = 'http://www.flvcd.com/parse.php?format=super&go=1&kw=' + encodeURIComponent(url);
         }
 
 
@@ -197,7 +197,7 @@ function address(hd, url, phpadd) {
                         log(matchstr);
                         return;
                     }
-                    urlanswer[hd] = ur[1].replace(/\|$/gi, '').replace(/&/gi, '%26');
+                    urlanswer[hd] = ur[1].replace(/\|$/gi, ''); //.replace(/&/gi, '%26');
                     if (isconti) {
                         isconti = false;
                         // log(urlanswer[hd])
@@ -301,6 +301,7 @@ function log(str) {
 }
 
 /* 
+ * 150414		修正因硕鼠改版导致的解析失效
  * 150322		飞驴api接口关闭;屏蔽相关代码
  * 150219       azure免费到期;域名转coding.net;修改/添加coding.net演示所需要文件
  * 150211 		修正在已经设置硕鼠解析清晰度下标清失效问题
