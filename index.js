@@ -4,7 +4,7 @@
 // @description    硕鼠/飞驴解析视频,ckplayer播放视频,去掉广告
 // @icon           http://i3.tietuku.com/11d6c35e96ef7c9f.jpg
 // @include        http://v.youku.com/v_show/id*
-// @include 	   http://www.hunantv.com/v*
+// @include        http://www.hunantv.com/v*
 // @grant          GM_xmlhttpRequest
 // @auther         SHANG殇
 // @namespace      SHANG
@@ -58,7 +58,7 @@ function extend(o1, o2) {
 var u; //播放地址
 var urlanswer = []; //清晰度解析地址
 var isconti = true; //播放环境
-var islog = true; //是否输出日志
+var islog = false; //是否输出日志
 var qxdchoose = ['1080', '超清', '高清', '标清']; //清晰度
 var hadjiexi = []; //是否解析过
 var playid = 'player'; //播放替换的 id
@@ -154,11 +154,11 @@ function address(hd, url, phpadd) {
     if (phpadd == 'ss') //硕鼠解析
     {
         if (hd == 3) {
-            u = 'http://www.flvcd.com/parse.php?format=normal&kw=' + encodeURIComponent(url);
+            u = 'http://www.flvcd.com/parse.php?format=normal&go=1&kw=' + encodeURIComponent(url);
         } else if (hd == 2) {
-            u = 'http://www.flvcd.com/parse.php?format=high&kw=' + encodeURIComponent(url);
+            u = 'http://www.flvcd.com/parse.php?format=high&go=1&kw=' + encodeURIComponent(url);
         } else if (hd == 1) {
-            u = 'http://www.flvcd.com/parse.php?format=super&kw=' + encodeURIComponent(url);
+            u = 'http://www.flvcd.com/parse.php?format=super&go=1&kw=' + encodeURIComponent(url);
         }
 
 
@@ -198,7 +198,8 @@ function address(hd, url, phpadd) {
                         log(matchstr);
                         return;
                     }
-                    urlanswer[hd] = ur[1].replace(/\|$/gi, '').replace(/&/gi, '%26');
+                    urlanswer[hd] = ur[1].replace(/\|$/gi, ''); //.replace(/&/gi, '%26');
+                    log(urlanswer[hd]);
                     if (isconti) {
                         isconti = false;
                         // log(urlanswer[hd])
@@ -301,9 +302,9 @@ function log(str) {
     }
 }
 
-/* 150309		添加hunantv
+/* 150309       添加hunantv
  * 150219       azure免费到期;域名转coding.net;修改/添加coding.net演示所需要文件
- * 150211 		修正在已经设置硕鼠解析清晰度下标清失效问题
+ * 150211       修正在已经设置硕鼠解析清晰度下标清失效问题
  * 150130       使用二级域名,本来域名即将调整
  * 150121       根据jshint修正各种警告
  * 150102       修正/更改 设置按钮 显示位置;修正飞驴1080P解析略过问题;去除京东服务器
