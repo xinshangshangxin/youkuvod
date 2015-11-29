@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         flvcdNoAd
 // @namespace    ishang
-// @version      0.1
+// @version      0.2
 // @description  硕鼠解析页面自动跳过广告
 // @author       ishang
 // @match        http://www.flvcd.com/*
@@ -10,12 +10,26 @@
 /* jshint -W097 */
 'use strict';
 
-var html = document.documentElement.innerHTML;
 
-var isParsed = /<input type="hidden" name="inf" value="/.test(html);
+var youkuUrl = getParameterByName('kw');
+// 非解析页面
+if(!youkuUrl) {
+  return;
+}
+
+var html = document.documentElement.innerHTML;
+// 解析成功
+var isParsed = /下载地址：/.test(html);
 if(isParsed) {
   return;
 }
+// 已经解析, 但解析失败
+if(getCookie('youkuUrl')) {
+  return;
+}
+
+// 设置为已经解析过了,不再进行解析
+setCookie('youkuUrl', youkuUrl);
 
 var key = ((html.match(/\='\w{32,32}'\;/) || [])[0] || '').replace('=\'', '').replace('\';', '');
 var time = ((html.match(/\=\d{13,13}/) || [])[0] || '').replace('=', '');
@@ -67,4 +81,28 @@ function parseCookie(key, time) {
   window.setTimeout(function() {
     window.location.reload();
   }, 16);
+}
+
+
+function getParameterByName(name) {
+  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+  var regex = new RegExp('[\\?&]' + name + '=([^&#]*)'),
+    results = regex.exec(window.location.search);
+  return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+
+function getCookie(name) {
+  var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+  if(arr = document.cookie.match(reg)) {
+    return decodeURIComponent(arr[2]);
+  }
+  else {
+    return null;
+  }
+}
+
+function setCookie(name, value) {
+  var date = new Date();
+  date.setTime(date.getTime() + 300 * 1000);
+  document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + date.toGMTString();
 }
