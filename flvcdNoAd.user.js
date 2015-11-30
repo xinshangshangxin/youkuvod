@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         flvcdNoAd
 // @namespace    ishang
-// @version      0.2
+// @version      0.3
 // @description  硕鼠解析页面自动跳过广告
 // @author       ishang
 // @match        http://www.flvcd.com/*
@@ -33,12 +33,12 @@ setCookie('youkuUrl', youkuUrl);
 
 var key = ((html.match(/\='\w{32,32}'\;/) || [])[0] || '').replace('=\'', '').replace('\';', '');
 var time = ((html.match(/\=\d{13,13}/) || [])[0] || '').replace('=', '');
+var b = ((html.match(/\|\w{32,32}\|/) || [])[0] || '').replace(/\|/g, '');
 
-parseCookie(key, time);
+parseCookie(key, time, b);
 
-function parseCookie(key, time) {
+function parseCookie(key, time, b) {
   function createSc(a, t) {
-    var b = '24227945943216730751837054267565';
     t = Math.floor(t / (600 * 1000));
     var ret = '';
     for(var i = 0; i < a.length; i++) {
