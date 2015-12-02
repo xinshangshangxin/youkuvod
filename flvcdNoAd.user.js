@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         flvcdNoAd
 // @namespace    ishang
-// @version      0.3
+// @version      0.4
 // @description  硕鼠解析页面自动跳过广告
 // @author       ishang
 // @match        http://www.flvcd.com/*
@@ -24,7 +24,7 @@ if(isParsed) {
   return;
 }
 // 已经解析, 但解析失败
-if(getCookie('youkuUrl')) {
+if(getCookie('youkuUrl') === youkuUrl) {
   return;
 }
 
