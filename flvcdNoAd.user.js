@@ -32,7 +32,7 @@ if(getCookie('youkuUrl') === youkuUrl) {
 setCookie('youkuUrl', youkuUrl);
 
 var key = ((html.match(/\='\w{32,32}'\;/) || [])[0] || '').replace('=\'', '').replace('\';', '');
-var time = ((html.match(/\=\d{13,13}/) || [])[0] || '').replace('=', '');
+var time = new Date().getTime() - 1000 * 21;//((html.match(/\=\d{13,13}/) || [])[0] || '').replace('=', '');
 var b = ((html.match(/\|\w{32,32}\|/) || [])[0] || '').replace(/\|/g, '');
 
 parseCookie(key, time, b);
