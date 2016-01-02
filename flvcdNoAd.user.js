@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         flvcdNoAd
 // @namespace    ishang
-// @version      0.4
+// @version      0.5
 // @description  硕鼠解析页面自动跳过广告
 // @author       ishang
 // @match        http://www.flvcd.com/*
