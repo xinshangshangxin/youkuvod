@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           youkuvod
-// @version        15.12.04.01
+// @version        16.01.02.01
 // @description    硕鼠解析视频,ckplayer播放视频,去掉广告
 // @icon           http://upload.xinshangshangxin.com/o_19pbo74ug1egh1d4tt818hb14b49.ico
 // @include        http://v.youku.com/v_show/id*
@@ -350,7 +350,7 @@ function flvcdNoAd() {
   setCookie('youkuUrl', youkuUrl);
 
   var key = ((html.match(/\='\w{32,32}'\;/) || [])[0] || '').replace('=\'', '').replace('\';', '');
-  var time = ((html.match(/\=\d{13,13}/) || [])[0] || '').replace('=', '');
+  var time = new Date().getTime() - 1000 * 21;//((html.match(/\=\d{13,13}/) || [])[0] || '').replace('=', '');
   var b = ((html.match(/\|\w{32,32}\|/) || [])[0] || '').replace(/\|/g, '');
 
   parseCookie(key, time, b);
@@ -427,6 +427,7 @@ function flvcdNoAd() {
 }
 
 /*
+ * 160102       突破硕鼠20s限制
  * 151204       修正因硕鼠改版导致的解析失效
  * 150414       修正因硕鼠改版导致的解析失效,修正清晰度按钮失效
  * 150322       飞驴api接口关闭;屏蔽相关代码
