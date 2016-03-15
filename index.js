@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           youkuvod
-// @version        16.01.02.01
-// @description    硕鼠解析视频,ckplayer播放视频,去掉广告
+// @version        16.03.16.01
+// @description    硕鼠解析视频,ckplayer播放视频,去掉优酷广告
 // @icon           http://upload.xinshangshangxin.com/o_19pbo74ug1egh1d4tt818hb14b49.ico
 // @include        http://v.youku.com/v_show/id*
 // @include        http://www.flvcd.com/parse.php*
@@ -68,10 +68,9 @@ var hadjiexi = []; //是否解析过
 var playid = 'player'; //播放替换的 id
 var ptime = 0;
 
-// 默认站点
-var ckjs = 'http://youkuvod.coding.io/ckplayer/ckplayer.js';
-var ckswf = 'http://youkuvod.coding.io/ckplayer/ckplayer.swf';
-var parseflv = 'http://youkuvod.coding.io/?';
+
+var ckswf = 'http://youkuvod.coding.me/youkuvod/ckplayer/ckplayer.swf';
+var ckjs = 'https://greasyfork.org/scripts/17997-ckplayer6-6/code/ckplayer66.js?version=113417';
 
 if(which == 1) {
   which = 3; // 1的网址已经无用
@@ -81,12 +80,9 @@ if(which == 1) {
 if(which == 2) {
   //官方原版   不够美化
   ckswf = 'http://www.ckplayer.com/ckplayer/6.6/ckplayer.swf';
-  ckjs = 'http://git.oschina.net/xinshangshangxin/youkuvod/raw/master/ckplayer/ckplayer.js';
 }
 else if(which == 3) {
-  // 稳定性带待测
-  ckjs = 'http://youkuvod.coding.io/ckplayer/ckplayer.js';
-  ckswf = 'http://youkuvod.coding.io/ckplayer/ckplayer.swf';
+  ckswf = 'http://youkuvod.coding.me/youkuvod/ckplayer/ckplayer.swf';
 }
 
 
@@ -427,6 +423,7 @@ function flvcdNoAd() {
 }
 
 /*
+ * 160316       配合greasyfork  "External Script: Please submit script as library."
  * 160102       突破硕鼠20s限制
  * 151204       修正因硕鼠改版导致的解析失效
  * 150414       修正因硕鼠改版导致的解析失效,修正清晰度按钮失效
