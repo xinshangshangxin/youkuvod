@@ -1,5 +1,7 @@
 # youkuvod4.0
 
+# 硕鼠已经无法解析优酷,此插件失效!!
+
 ## [github地址](https://github.com/xinshangshangxin/youkuvod) / [greasyfork地址](https://greasyfork.org/zh-CN/scripts/2837-youkuvod)
 ## 硕鼠解析视频,ckplayer播放视频,去掉优酷广告
 
