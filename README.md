@@ -11,7 +11,7 @@
 > 如果刷新3次都没有, 请反馈~~
 
 ###2. 第一次使用请允点击许"访问域名", 如下图所示:
-[](https://raw.githubusercontent.com/xinshangshangxin/youkuvod/master/data/001.png)
+![](https://raw.githubusercontent.com/xinshangshangxin/youkuvod/master/data/001.png)
 ~~###3. 设置按钮在左边,详细设置在右边~~
 ~~###4. 设置内容包括: 默认清晰度;播放器服务器~~
 ###5. 偶尔会遇到拖动失败(因为视频是分割的)
