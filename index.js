@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           youkuvod
-// @version        16.06.05.01
+// @version        16.06.07.01
 // @description    第三方服务解析视频,ckplayer播放视频,去掉优酷广告
 // @icon           http://upload.xinshangshangxin.com/o_19pbo74ug1egh1d4tt818hb14b49.ico
 // @include        http://v.youku.com/v_show/id*
@@ -11,7 +11,9 @@
 
 
 //全局变量
+var currentHref = window.location.href;
 var isLog = false;
+var timeout = 15 * 1000;
 var definitions = ['1080', '超清', '高清', '标清']; //清晰度
 var playId = 'player'; //播放替换的 id
 
@@ -34,47 +36,83 @@ var option = {
   definition: 1   //清晰度
 };
 
-if(localStorage['shang_youkuvod']) {
-  var userOption = JSON.parse(localStorage['shang_youkuvod']);
-  option.definition = userOption.definition;
+if(localStorage.getItem('shang_youkuvod')) {
+  var userOption = JSON.parse(localStorage.getItem('shang_youkuvod'));
+  option.definition = userOption.definition === undefined ? option.definition : parseInt(userOption.definition);
 }
 // 用户设置结束
 
 
 // 开始查询 播放URL;
-if(isMatch(window.location.href)) {
-  address(window.location.href, function(err, data) {
+if(isMatch(currentHref)) {
+  startParse();
+}
+
+function startParse() {
+  var nu = 0;
+  var targetNu = 2;
+  var results = [];
+  var isPlaying = false;
+  addressXML(currentHref, function(err, data) {
+    nu++;
     if(err) {
       log(err);
-      throwError();
+      tryPlay(results, nu);
+      return;
     }
+    results.push.apply(results, data);
+    tryPlay(results, nu);
+  });
 
-    data = data.filter(function(item) {
+  address(currentHref, function(err, data) {
+    nu++;
+    if(err) {
+      log(err);
+      tryPlay(results, nu);
+      return;
+    }
+    results.push.apply(results, data.filter(function(item) {
       return haveUrls(item);
-    });
+    }).reverse());
+    tryPlay(results, nu);
+  });
 
-    if(!data.length) {
-      throwError();
+
+  function tryPlay() {
+    log('nu: ', nu, 'results: ', results);
+    if(!results.length) {
+      if(nu == targetNu) {
+        throwError(null, nu === targetNu);
+      }
+      return;
     }
 
-    var matchObj = data.filter(function(item) {
+    addButton(results);
+
+    var matchObj = results.filter(function(item) {
       return item.name === definitions[option.definition];
     })[0];
 
-    if(!haveUrls(matchObj)) {
-      matchObj = data[data.length - 1];
+    if(haveUrls(matchObj)) {
+      isPlaying = true;
+      log('matchObj.data: ', matchObj.data);
+      log('all results:', results);
+      startPlay(matchObj.data.join('|'));
     }
 
-    log('matchObj: ', matchObj.data);
+    if(!isPlaying && nu === targetNu) {
+      matchObj = results[results.length - 1];
 
-    start(matchObj.data.join('|'));
-    data.reverse();
-    addButton(data);
-  });
+      log('matchObj.data: ', matchObj.data);
+      log('all results:', results);
+      startPlay(matchObj.data.join('|'));
+    }
+
+  }
 }
 
 function haveUrls(matchObj) {
-  return matchObj && matchObj.data && matchObj.data.length
+  return matchObj && matchObj.data && matchObj.data.length;
 }
 
 
@@ -84,16 +122,47 @@ function isMatch(url) {
 }
 
 //未解析到视频抛出异常
-function throwError() {
+function throwError(e, isAlert) {
   definitionDiv.innerHTML = '<div>解析失败</div>';
-  alert('没有解析到视频');
+  if(isAlert) {
+    alert('没有解析到视频');
+  }
+}
+
+function addressXML(url, done) {
+  log('start addressXML');
+  //noinspection JSUnresolvedFunction
+  GM_xmlhttpRequest({
+    method: 'GET',
+    timeout: timeout,
+    url: 'http://api.btjson.com/video.php?v=' + url,
+    headers: {
+      'cache-control': 'no-cache',
+      'user-agent': 'Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.63 Safari/537.36'
+    },
+    onload: function(jdata) {
+      var data = parseXML(jdata.responseText);
+      log('end addressXML: ', data);
+      done(null, data);
+    },
+    onerror: function(res) {
+      log('error addressXML');
+      done(res);
+    },
+    ontimeout: function(res) {
+      log('timeout addressXML');
+      done(res);
+    }
+  });
 }
 
 //地址解析
 function address(url, done) {
+  log('start address');
   //noinspection JSUnresolvedFunction
   GM_xmlhttpRequest({
     method: 'POST',
+    timeout: timeout,
     url: 'http://www.shokdown.com/parse.php',
     data: 'url=' + url,
     headers: {
@@ -109,12 +178,33 @@ function address(url, done) {
       origin: 'http://www.shokdown.com'
     },
     onload: function(jdata) {
-      done(null, parseHtml(jdata.responseText))
+      var data = parseHtml(jdata.responseText);
+      log('end address, ', data);
+      done(null, data);
     },
-    onerror: function(e) {
-      done(e);
+    onerror: function(res) {
+      log('error address');
+      done(res);
+    },
+    ontimeout: function(res) {
+      log('timeout address');
+      done(res);
     }
   });
+}
+
+function parseXML(str) {
+  var urls = str.match(/http[^><"' ]+(?=[\r\n]?]]>)/gi);
+
+  if(!urls) {
+    return [];
+  }
+
+  return [{
+    name: '超清',
+    len: urls.length,
+    data: urls
+  }];
 }
 
 function parseHtml(str) {
@@ -144,9 +234,18 @@ function parseHtml(str) {
 }
 
 //播放视频
-function start(u, ss) {
+function startPlay(u, ss, nu) {
+  if(!CKobject) {
+    if(nu > 2) {
+      throwError(new Error('CKobject 不存在！！'), true);
+      return;
+    }
+
+    setTimeout(function() {
+      startPlay(u, ss, (nu || 1) + 1);
+    }, 1000);
+  }
   ss = ss || 0;
-  log(u, ss);
   if(CKobject.getObjectById('syplayer') !== null) {
     CKobject.getObjectById('syplayer').ckplayer_newaddress('{f->' + u + '}{s->' + ss + '}');
     return;
@@ -164,9 +263,9 @@ function addButton(arr) {
   var setting = '';
   //'<button style="display:block;border:none;background:none;" onclick="document.getElementById(\'content_shang\').style.display=(document.getElementById(\'content_shang\').style.display == \'block\' ? \'none\' : \'block\')">设置</button>';
   definitionDiv.innerHTML = setting + arr.map(function(item) {
-      return '<input type="button" onclick = "CKobject.getObjectById(\'syplayer\').newAddress(\'{s->0}{f->'
-        + item.data.join('|') + '}\');" value="' + item.name
-        + '" style="display:block;border:none;background:none;">'
+      return '<input type="button" onclick = "CKobject.getObjectById(\'syplayer\').newAddress(\'{s->0}{f->' +
+        item.data.join('|') + '}\');" value="' + item.name +
+        '" style="display:block;border:none;background:none;">';
     }).join('');
 }
 
@@ -249,6 +348,7 @@ function polyfill() {
 
 
 /*
+ * 160607       使用btjson.com解析超清视频
  * 160605       使用舒克解析代替硕鼠
  * 160316       配合greasyfork  "External Script: Please submit script as library."
  * 160102       突破硕鼠20s限制
