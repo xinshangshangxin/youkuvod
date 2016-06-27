@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           youkuvod
-// @version        16.06.07.01
+// @version        16.06.27.01
 // @description    第三方服务解析视频,ckplayer播放视频,去掉优酷广告
 // @icon           http://upload.xinshangshangxin.com/o_19pbo74ug1egh1d4tt818hb14b49.ico
 // @include        http://v.youku.com/v_show/id*
@@ -50,19 +50,19 @@ if(isMatch(currentHref)) {
 
 function startParse() {
   var nu = 0;
-  var targetNu = 2;
+  var targetNu = 1;
   var results = [];
   var isPlaying = false;
-  addressXML(currentHref, function(err, data) {
-    nu++;
-    if(err) {
-      log(err);
-      tryPlay(results, nu);
-      return;
-    }
-    results.push.apply(results, data);
-    tryPlay(results, nu);
-  });
+  // addressXML(currentHref, function(err, data) {
+  //   nu++;
+  //   if(err) {
+  //     log(err);
+  //     tryPlay(results, nu);
+  //     return;
+  //   }
+  //   results.push.apply(results, data);
+  //   tryPlay(results, nu);
+  // });
 
   address(currentHref, function(err, data) {
     nu++;
@@ -81,7 +81,7 @@ function startParse() {
   function tryPlay() {
     log('nu: ', nu, 'results: ', results);
     if(!results.length) {
-      if(nu == targetNu) {
+      if(nu === targetNu) {
         throwError(null, nu === targetNu);
       }
       return;
@@ -348,6 +348,7 @@ function polyfill() {
 
 
 /*
+ * 160627       btjson停止解析
  * 160607       使用btjson.com解析超清视频
  * 160605       使用舒克解析代替硕鼠
  * 160316       配合greasyfork  "External Script: Please submit script as library."

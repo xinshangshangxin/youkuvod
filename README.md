@@ -1,7 +1,6 @@
 # youkuvod5
 
-# 硕鼠已经无法解析优酷, 更换为[舒克解析](http://www.shokdown.com/index.php) + [btjson](http://www.btjson.com/index.html), 舒克仅支持高清和标清解析, btjson默认超清, 但无法知晓其清晰度
-
+# 硕鼠已经无法解析优酷, 更换为[舒克解析](http://www.shokdown.com/index.php)舒克仅支持高清和标清解析
 
 ## [github地址](https://github.com/xinshangshangxin/youkuvod) / [greasyfork地址](https://greasyfork.org/zh-CN/scripts/2837-youkuvod)
 ## 第三方服务解析视频,ckplayer播放视频,去掉优酷广告
