@@ -314,6 +314,8 @@ function pageSetting() {
   definitionDiv.onmouseout = function() {
     definitionDiv.style.width = '0';
   };
+
+  document.getElementsByClassName('vpactionv5_iframe_wrap')[0].style = 'display: none';
 }
 
 function polyfill() {
@@ -348,6 +350,7 @@ function polyfill() {
 
 
 /*
+ * 161225       修复进度条不显示问题
  * 160627       btjson停止解析
  * 160607       使用btjson.com解析超清视频
  * 160605       使用舒克解析代替硕鼠
