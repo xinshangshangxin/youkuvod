@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           youkuvod
-// @version        16.06.27.01
+// @version        16.12.25.01
 // @description    第三方服务解析视频,ckplayer播放视频,去掉优酷广告
 // @icon           http://upload.xinshangshangxin.com/o_19pbo74ug1egh1d4tt818hb14b49.ico
 // @include        http://v.youku.com/v_show/id*
